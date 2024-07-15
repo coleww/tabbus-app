@@ -1,20 +1,28 @@
 import React, { useState } from 'react';
 import { Tuning } from './tuning';
+import { Key } from './key';
+
+import { type TabData, getPossibleKeys } from 'tab-tools';
 
 type RiffData = {
-  data: string[][];
-  tuning: string[];
-  key: string;
+  tabData: TabData;
 };
 
-// needs callback to trigger save?
-
-export function Riff({ data, tuning, key }: RiffData) {
+export function Riff({ tabData }: RiffData) {
+  const { data, tuning } = tabData;
   const [currentTuning, setTuning] = useState(tuning);
+  const [currentKey, setKey] = useState('a min');
+  const [possibleKeys, setPossibleKeys] = useState(getPossibleKeys(tabData));
 
   return (
     <div>
+      <Key
+        currentKey={currentKey}
+        possibleKeys={possibleKeys}
+        setKey={setKey}
+      />
       <Tuning data={currentTuning} setData={setTuning} />
+      {JSON.stringify(data)}
     </div>
   );
 }

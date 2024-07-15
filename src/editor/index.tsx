@@ -1,23 +1,20 @@
 import React from 'react';
 import { Riff } from './riff';
 
-// editor page can have multiple "riff"s open at the same time
-
-// This component just interacts with the API and loads/saves riffs?
+const mock_data = {
+  data: [
+    ['', '', '', '', '0', '', '', ''],
+    ['', '', '', '', '2', '/', '3', ''],
+    ['', '', '', '3', '', '', '', ''],
+    ['1', '1', '1', '', '', '', '', '3'],
+  ],
+  tuning: ['g', 'd', 'a', 'e'],
+};
 
 export function EditorPage() {
   return (
     <div>
-      <Riff
-        data={[
-          ['0', '0', '0', '0'],
-          ['0', '0', '0', '0'],
-          ['0', '0', '0', '0'],
-          ['0', '0', '0', '0'],
-        ]}
-        tuning={['g', 'd', 'a', 'e']}
-        key=""
-      />
+      <Riff tabData={mock_data} />
     </div>
   );
 }

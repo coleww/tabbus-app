@@ -1,24 +1,10 @@
 import React, { useState, useCallback, useMemo } from 'react';
+import { ALL_NOTES } from 'tab-tools';
 
 type TuningProps = {
   data: string[];
   setData: (data: string[]) => void;
 };
-
-const ALL_NOTES = [
-  'a',
-  'a#',
-  'b',
-  'c',
-  'c#',
-  'd',
-  'd#',
-  'e',
-  'f',
-  'f#',
-  'g',
-  'g#',
-];
 
 export function Tuning({ data, setData }: TuningProps) {
   const [isEditing, setIsEditing] = useState(false);
