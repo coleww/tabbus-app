@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { ALL_KEYS } from 'tab-tools';
 
 type KeyProps = {
@@ -13,14 +13,14 @@ export function Key({ possibleKeys, currentKey, setKey }: KeyProps) {
       <>
         {possibleKeys.map(key => {
           return (
-            <option value={key} key={key} className="key-option--valid">
+            <option value={key} key={key}>
               {key}
             </option>
           );
         })}
         {ALL_KEYS.filter(key => !possibleKeys.includes(key)).map(key => {
           return (
-            <option value={key} key={key} className="key-option--invalid">
+            <option value={key} key={key}>
               -{key}-
             </option>
           );
