@@ -7,8 +7,12 @@ import { Name } from './name';
 import { getPossibleKeys } from 'tab-tools';
 import './riff.css';
 
+
+const EMPTY_STRING = [...Array(16).keys()].map(() => '')
+
 export function Riff() {
-  // TODO: wire to API
+
+  // TODO: wire all these up to API / data store
   const [tabData, setTabData] = useState<string[][]>([
     ['', '', '', '', '0', '', '', '', '', '', '', '', '0', '', '', ''],
     ['', '', '', '', '0', '', '', '', '', '', '', '', '2', '/', '3', ''],
@@ -19,15 +23,29 @@ export function Riff() {
   const [currentKey, setCurrentKey] = useState('a min');
   const [name, setName] = useState('sick riff');
 
+  const [showScale, setShowScale] = useState(false); 
 
-  const [showScale, setShowScale] = useState(false);
   const [possibleKeys, setPossibleKeys] = useState(
     getPossibleKeys({ data: tabData, tuning })
   );
 
   useEffect(() => {
     setPossibleKeys(getPossibleKeys({ data: tabData, tuning }));
+
+    if (tuning.length > tabData.length) {
+      const toAdd = tuning.length - tabData.length;
+      for (let i = 0; i < toAdd; i++) {
+        tabData.unshift(EMPTY_STRING)
+      }
+    } else if (tuning.length < tabData.length) {
+      const toRemove = tabData.length - tuning.length;
+      for (let i = 0; i < toRemove; i++) {
+        tabData.shift()
+      }
+    }
+    setTabData(tabData);
   }, [tabData, tuning]);
+
 
   const updateTabData = useCallback(
     (stringIdx: number, fretIdx: number, value: string) => {
