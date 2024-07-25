@@ -1,6 +1,8 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { ALL_NOTES } from 'tab-tools';
 
+// TODO: create input component, dedupe with name.tsx
+
 type TuningProps = {
   data: string[];
   setData: (data: string[]) => void;
@@ -12,16 +14,16 @@ export function Tuning({ data, setData }: TuningProps) {
   const [editedTuning, setEditedTuning] = useState(displayTuning);
 
   const handleChange = useCallback(
-    e => {
-      setEditedTuning(e.target.value as string);
+    (e: React.FormEvent<HTMLInputElement>) => {
+      setEditedTuning(e.currentTarget.value as string);
     },
     [setEditedTuning]
   );
 
   const handleKeyDown = useCallback(
-    e => {
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'Enter') {
-        const editedString = e.target.value as string;
+        const editedString = e.currentTarget.value as string;
         const newTuning =
           editedString
             .match(/(\w#|\w)/g)

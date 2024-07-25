@@ -4,10 +4,10 @@ import { ALL_KEYS } from 'tab-tools';
 type KeyProps = {
   possibleKeys: string[];
   currentKey: string;
-  setKey: (key: string) => void;
+  setCurrentKey: (key: string) => void;
 };
 
-export function Key({ possibleKeys, currentKey, setKey }: KeyProps) {
+export function Key({ possibleKeys, currentKey, setCurrentKey }: KeyProps) {
   const options = useMemo(() => {
     return (
       <>
@@ -27,14 +27,15 @@ export function Key({ possibleKeys, currentKey, setKey }: KeyProps) {
         })}
       </>
     );
-  }, [currentKey, possibleKeys]);
+  }, [possibleKeys]);
 
   return (
     <div data-id="key">
       <select
         onChange={evt => {
-          setKey(evt.target.value);
+          setCurrentKey(evt.target.value);
         }}
+        value={currentKey}
       >
         {options}
       </select>
