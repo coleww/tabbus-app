@@ -7,7 +7,7 @@ module.exports = {
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  ignorePatterns: ['dist', '.eslintrc.js'],
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
   settings: { react: { version: '18.2' } },
   plugins: ['react-refresh'],
@@ -18,4 +18,17 @@ module.exports = {
       { allowConstantExport: true },
     ],
   },
-}
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx'],
+      extends: [
+        'eslint:recommended',
+        'plugin:@typescript-eslint/eslint-recommended',
+        'plugin:@typescript-eslint/recommended',
+        'plugin:react/recommended',
+      ],
+      parser: '@typescript-eslint/parser',
+      plugins: ['react', 'prettier', '@typescript-eslint'],
+    },
+  ],
+};
