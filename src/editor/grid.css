@@ -11,3 +11,11 @@
   display: inline;
   width: fit-content;
 }
+
+.riff-grid {
+  border: 1px solid gray;
+  width: fit-content;
+  padding: 16px;
+  border-radius: 8px;
+  margin: 16px;
+}

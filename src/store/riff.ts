@@ -1,10 +1,10 @@
 import { type Riff, type Metadata } from '../types';
 import { type TabData, validateTabData } from 'tab-tools';
 import { isDefined } from '../utils';
-import { setItem, removeItem, getItem, getItems } from './local';
+import { setItem, removeItem, getItem, getItems } from './local'; 
 import KEYS from './keys';
 
-const validateRiff = (riffData: object): Riff | void => {
+const validateRiff = (riffData: Record<string, unknown>): Riff | void => {
   const hasRequiredKeys = ['id', 'name', 'data', 'tuning'].every(key => {
     return key in riffData && Boolean(riffData[key]);
   });
@@ -13,10 +13,14 @@ const validateRiff = (riffData: object): Riff | void => {
     Array.isArray(tabData.data) &&
     Array.isArray(tabData.data[0]) &&
     Array.isArray(tabData.tuning) &&
-    typeof tabData.data[0][0] === 'string';
-  const isValid = hasRequiredKeys && hasTabData && validateTabData(tabData);
+    typeof tabData.data[0][0] === 'string' &&
+    typeof tabData.tuning[0] === 'string';
+  const isProbablyValid = hasRequiredKeys && hasTabData && validateTabData(tabData as TabData);
 
-  if (isValid) {
+  // TODO: check id/name?
+  // TODO: use schema/library for this: https://zod.dev or https://github.com/samchon/typia
+
+  if (isProbablyValid) {
     return {
       id: String(riffData['id'] || ''),
       name: String(riffData['name'] || ''),
@@ -27,6 +31,7 @@ const validateRiff = (riffData: object): Riff | void => {
   return;
 };
 
+// TODO: setting to toggle between local and API?
 export const getRiffs = (): Riff[] => {
   return getItems(KEYS.RIFF)
     .map(riff => validateRiff(riff))
