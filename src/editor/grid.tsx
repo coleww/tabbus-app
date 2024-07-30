@@ -26,8 +26,6 @@ export function Grid({
       const posString = clicked.getAttribute('data-pos');
       const isInKey = clicked.getAttribute('data-keymatch');
 
-      console.log(posString, isInKey);
-
       if (!posString) return; // click was on something besides a cell button
 
       const [clickedStringIdx, clickedFretIdx] = posString
