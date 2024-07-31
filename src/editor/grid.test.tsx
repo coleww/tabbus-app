@@ -130,7 +130,7 @@ describe('Grid', function () {
           {...mockGrid}
           showScale={false}
           currentKey={'e maj'}
-          tabData={[['4', '', '2', '', '0']]}
+          tabData={[['0', '', '2', '', '0']]}
           tuning={['e']}
           updateTabData={callback}
         />
@@ -141,5 +141,76 @@ describe('Grid', function () {
     fireEvent.click(buttons[0]);
     // Click third button to select '2'
     fireEvent.click(buttons[2]);
+  });
+
+  it('should exit edit mode when non-active string is clicked', function () {
+    render(
+      <React.Fragment>
+        <Grid
+          {...mockGrid}
+          showScale={false}
+          currentKey={'chromatic'}
+          tabData={[
+            ['0', '', '2', '', '0'],
+            ['', '3', '', '1', ''],
+          ]}
+          tuning={['e', 'a']}
+        />
+      </React.Fragment>
+    );
+    // 5 buttons/cells on each string
+    const buttons = screen.getAllByRole('button');
+    // Click first button to enter edit mode
+    fireEvent.click(buttons[0]);
+
+    const expectedScale = ['0', '1', '2', '3', '4', '', '', '', '', ''];
+    buttons.forEach((button, i) => {
+      expect(button.textContent?.replace(/-/g, '')).toBe(expectedScale[i]);
+    });
+
+    // Click sixth button on non-active string to exit
+    fireEvent.click(buttons[5]);
+
+    const expectedTab = ['0', '', '2', '', '0', '', '3', '', '1', ''];
+    buttons.forEach((button, i) => {
+      expect(button.textContent?.replace(/-/g, '')).toBe(expectedTab[i]);
+    });
+  });
+
+  it('should exit edit mode when out of key fret is clicked on active string', function (done) {
+    const callback = (stringIdx: number, fretIdx: number, value: string) => {
+      expect(stringIdx).toBe(0);
+      expect(fretIdx).toBe(0);
+      expect(value).toBe('2');
+      done();
+    };
+    render(
+      <React.Fragment>
+        <Grid
+          {...mockGrid}
+          showScale={false}
+          currentKey={'e maj'}
+          tabData={[['0', '', '2', '', '0']]}
+          tuning={['e']}
+          updateTabData={callback}
+        />
+      </React.Fragment>
+    );
+    const buttons = screen.getAllByRole('button');
+    // Click first button to enter edit mode
+    fireEvent.click(buttons[0]);
+
+    const expectedScale = ['0', '', '2', '', '4'];
+    buttons.forEach((button, i) => {
+      expect(button.textContent?.replace(/-/g, '')).toBe(expectedScale[i]);
+    });
+
+    // Click second button to select out of key note
+    fireEvent.click(buttons[2]);
+
+    const expectedTab = ['0', '', '2', '', '0'];
+    buttons.forEach((button, i) => {
+      expect(button.textContent?.replace(/-/g, '')).toBe(expectedTab[i]);
+    });
   });
 });

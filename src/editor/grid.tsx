@@ -26,7 +26,11 @@ export function Grid({
       const posString = clicked.getAttribute('data-pos');
       const isInKey = clicked.getAttribute('data-keymatch');
 
-      if (!posString) return; // click was on something besides a cell button
+      if (!posString) {
+        // Clicked on a non-cell, exit edit mode
+        setEditTarget(undefined);
+        return;
+      }
 
       const [clickedStringIdx, clickedFretIdx] = posString
         .split(',')
@@ -34,8 +38,11 @@ export function Grid({
 
       if (editTarget) {
         const [targetStringIdx, targetFretIdx] = editTarget;
-        if (clickedStringIdx !== targetStringIdx) return; // clicked a non-active string
-        if (!isInKey) return; // clicked out of key note on active string
+        if (clickedStringIdx !== targetStringIdx || !isInKey) {
+          // clicked a non-active string or an out of key note, exit edit mode
+          setEditTarget(undefined);
+          return;
+        }
         updateTabData(targetStringIdx, targetFretIdx, `${clickedFretIdx}`);
         setEditTarget(undefined);
       } else {
