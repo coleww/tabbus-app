@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { EditorPage } from './editor';
+import { EditorScreen } from './editor';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 // ... PORTALS?!?!?!?!
@@ -8,6 +8,6 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 // react router
 root.render(
   <React.StrictMode>
-    <EditorPage />
+    <EditorScreen />
   </React.StrictMode>
 );

@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { getNote, KEY_MAP } from 'tab-tools';
 import './grid.css';
 
-type GridData = {
+type GridProps = {
   tabData: string[][];
   tuning: string[];
   showScale: boolean;
@@ -16,7 +16,7 @@ export function Grid({
   currentKey,
   updateTabData,
   showScale,
-}: GridData) {
+}: GridProps) {
   const [editTarget, setEditTarget] = useState<number[] | undefined>();
 
   const handleGridClick = useCallback(

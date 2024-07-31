@@ -5,6 +5,7 @@ export type Metadata = {
   name: string;
   notes?: string;
   tags?: string;
+  selectedKey?: string;
 };
 
 export type Riff = Metadata & TabData;

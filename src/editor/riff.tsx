@@ -6,21 +6,24 @@ import { Name } from './name';
 
 import { getPossibleKeys } from 'tab-tools';
 import './riff.css';
+import { type Riff } from '../types';
 
-const EMPTY_STRING = [...Array(16).keys()].map(() => '');
+type RiffProps = {
+  riff: Riff;
+};
 
-export function Riff() {
+export function RiffEdit({ riff }: RiffProps) {
   // TODO: wire all these up to API / data store
-  // TODO: default tab length should be 24 for full neck? also in settings
-  const [tabData, setTabData] = useState<string[][]>([
-    ['', '', '', '', '0', '', '', '', '', '', '', '', '0', '', '', ''],
-    ['', '', '', '', '0', '', '', '', '', '', '', '', '2', '/', '3', ''],
-    ['', '', '', '', '0', '', '', '', '', '', '', '3', '', '', '', ''],
-    ['', '', '', '', '0', '', '', '', '1', '1', '1', '', '', '', '', '3'],
-  ]);
-  const [tuning, setTuning] = useState<string[]>(['g', 'd', 'a', 'e']);
-  const [currentKey, setCurrentKey] = useState('a min');
-  const [name, setName] = useState('sick riff');
+  const {
+    name: _name,
+    data: _data,
+    tuning: _tuning,
+    selectedKey: _selectedKey,
+  } = riff;
+  const [tabData, setTabData] = useState<string[][]>(_data);
+  const [tuning, setTuning] = useState<string[]>(_tuning);
+  const [currentKey, setCurrentKey] = useState(_selectedKey || 'chromatic');
+  const [name, setName] = useState(_name);
 
   const [showScale, setShowScale] = useState(false);
 
@@ -34,7 +37,8 @@ export function Riff() {
     if (tuning.length > tabData.length) {
       const toAdd = tuning.length - tabData.length;
       for (let i = 0; i < toAdd; i++) {
-        tabData.unshift(EMPTY_STRING);
+        const emptyString = [...Array(tabData[0].length).keys()].map(() => '');
+        tabData.unshift(emptyString);
       }
     } else if (tuning.length < tabData.length) {
       const toRemove = tabData.length - tuning.length;
@@ -54,7 +58,7 @@ export function Riff() {
   );
 
   return (
-    <div>
+    <React.Fragment>
       <div className="controls">
         <Name name={name} setName={setName} />
         <Key
@@ -79,6 +83,6 @@ export function Riff() {
         updateTabData={updateTabData}
         showScale={showScale}
       />
-    </div>
+    </React.Fragment>
   );
 }

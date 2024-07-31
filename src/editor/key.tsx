@@ -18,6 +18,7 @@ export function Key({ possibleKeys, currentKey, setCurrentKey }: KeyProps) {
             </option>
           );
         })}
+        {/* TODO: style non-matches differently if possible? */}
         {ALL_KEYS.filter(key => !possibleKeys.includes(key)).map(key => {
           return (
             <option value={key} key={key}>
@@ -30,15 +31,17 @@ export function Key({ possibleKeys, currentKey, setCurrentKey }: KeyProps) {
   }, [possibleKeys]);
 
   return (
-    <div data-id="key">
-      <select
-        onChange={evt => {
-          setCurrentKey(evt.target.value);
-        }}
-        value={currentKey}
-      >
-        {options}
-      </select>
-    </div>
+    <React.Fragment>
+      <div data-id="key">
+        <select
+          onChange={evt => {
+            setCurrentKey(evt.target.value);
+          }}
+          value={currentKey}
+        >
+          {options}
+        </select>
+      </div>
+    </React.Fragment>
   );
 }

@@ -30,7 +30,7 @@ export function Name({ name, setName }: NameProps) {
   );
 
   return (
-    <div data-id="Name">
+    <div data-id="name">
       {isEditing ? (
         <input
           className=""

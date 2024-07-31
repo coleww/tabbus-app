@@ -14,7 +14,11 @@ export const getItem = (key: string, id: string): Record<string, unknown> => {
   return JSON.parse(localStorage.getItem(tokenize(key, id)) || '');
 };
 
-export const setItem = (key: string, _id: string, _item: Record<string, unknown>): Record<string, unknown> => {
+export const setItem = (
+  key: string,
+  _id: string,
+  _item: Record<string, unknown>
+): Record<string, unknown> => {
   // TODO: try catch for storage full
   const id = _id || uid();
   const item = { ..._item, id };

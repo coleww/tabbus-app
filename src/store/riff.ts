@@ -1,7 +1,7 @@
 import { type Riff, type Metadata } from '../types';
 import { type TabData, validateTabData } from 'tab-tools';
 import { isDefined } from '../utils';
-import { setItem, removeItem, getItem, getItems } from './local'; 
+import { setItem, removeItem, getItem, getItems } from './local';
 import KEYS from './keys';
 
 const validateRiff = (riffData: Record<string, unknown>): Riff | void => {
@@ -15,7 +15,8 @@ const validateRiff = (riffData: Record<string, unknown>): Riff | void => {
     Array.isArray(tabData.tuning) &&
     typeof tabData.data[0][0] === 'string' &&
     typeof tabData.tuning[0] === 'string';
-  const isProbablyValid = hasRequiredKeys && hasTabData && validateTabData(tabData as TabData);
+  const isProbablyValid =
+    hasRequiredKeys && hasTabData && validateTabData(tabData as TabData);
 
   // TODO: check id/name?
   // TODO: use schema/library for this: https://zod.dev or https://github.com/samchon/typia
