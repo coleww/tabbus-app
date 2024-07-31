@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 
 // TODO: create input component, dedupe with tuning.tsx
+// re-use for song
 
 type NameProps = {
   name: string;

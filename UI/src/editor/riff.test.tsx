@@ -10,6 +10,7 @@ const mockRiff = {
   currentKey: 'chromatic',
   name: 'riff 1',
   id: '1',
+  songId: '1'
 };
 
 describe('Riff', function () {

@@ -2,6 +2,7 @@ import React, { useState, useCallback, useMemo } from 'react';
 import { ALL_NOTES } from 'tab-tools';
 
 // TODO: create input component, dedupe with name.tsx
+// re-use for song, option to lock it for all riffs?
 
 type TuningProps = {
   data: string[];

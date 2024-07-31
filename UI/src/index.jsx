@@ -5,7 +5,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 // ... PORTALS?!?!?!?!
 
-// react router
+// react router?
 root.render(
   <React.StrictMode>
     <EditorScreen />
