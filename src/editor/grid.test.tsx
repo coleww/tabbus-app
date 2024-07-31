@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 
 import { Grid } from './grid';
+import { dedash } from '../test-utils';
 
 const mockGrid = {
   tabData: [['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']],
@@ -46,7 +47,7 @@ describe('Grid', function () {
     );
     const buttons = screen.getAllByRole('button');
     buttons.forEach((button, i) => {
-      expect(button.textContent?.replace(/-/g, '')).toBe(mockTabData[0][i]);
+      expect(dedash(button.textContent)).toBe(mockTabData[0][i]);
     });
   });
 
@@ -88,7 +89,7 @@ describe('Grid', function () {
     ];
     const buttons = screen.getAllByRole('button');
     buttons.forEach((button, i) => {
-      expect(button.textContent?.replace(/-/g, '')).toBe(expectedScale[i % 16]);
+      expect(dedash(button.textContent)).toBe(expectedScale[i % 16]);
     });
   });
 
@@ -113,7 +114,7 @@ describe('Grid', function () {
     const expectedScale = ['0', '', '2', '', '4', '', '', '', '', ''];
 
     buttons.forEach((button, i) => {
-      expect(button.textContent?.replace(/-/g, '')).toBe(expectedScale[i]);
+      expect(dedash(button.textContent)).toBe(expectedScale[i]);
     });
   });
 
@@ -165,7 +166,7 @@ describe('Grid', function () {
 
     const expectedScale = ['0', '1', '2', '3', '4', '', '', '', '', ''];
     buttons.forEach((button, i) => {
-      expect(button.textContent?.replace(/-/g, '')).toBe(expectedScale[i]);
+      expect(dedash(button.textContent)).toBe(expectedScale[i]);
     });
 
     // Click sixth button on non-active string to exit
@@ -173,7 +174,7 @@ describe('Grid', function () {
 
     const expectedTab = ['0', '', '2', '', '0', '', '3', '', '1', ''];
     buttons.forEach((button, i) => {
-      expect(button.textContent?.replace(/-/g, '')).toBe(expectedTab[i]);
+      expect(dedash(button.textContent)).toBe(expectedTab[i]);
     });
   });
 
@@ -202,7 +203,7 @@ describe('Grid', function () {
 
     const expectedScale = ['0', '', '2', '', '4'];
     buttons.forEach((button, i) => {
-      expect(button.textContent?.replace(/-/g, '')).toBe(expectedScale[i]);
+      expect(dedash(button.textContent)).toBe(expectedScale[i]);
     });
 
     // Click second button to select out of key note
@@ -210,7 +211,7 @@ describe('Grid', function () {
 
     const expectedTab = ['0', '', '2', '', '0'];
     buttons.forEach((button, i) => {
-      expect(button.textContent?.replace(/-/g, '')).toBe(expectedTab[i]);
+      expect(dedash(button.textContent)).toBe(expectedTab[i]);
     });
   });
 });
