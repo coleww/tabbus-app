@@ -60,7 +60,7 @@ export function RiffEdit({ riff }: RiffProps) {
   );
 
   return (
-    <React.Fragment>
+    <div className='riff'>
       <div className="controls">
         <Name name={name} setName={setName} />
         <Key
@@ -85,6 +85,6 @@ export function RiffEdit({ riff }: RiffProps) {
         updateTabData={updateTabData}
         showScale={showScale}
       />
-    </React.Fragment>
+    </div>
   );
 }

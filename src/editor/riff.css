@@ -1,12 +1,15 @@
 .controls {
-  border: 1px solid gray;
   width: fit-content;
-  padding: 16px;
-  border-radius: 8px;
-  margin: 16px;
+  margin-bottom: 8px;
 }
 
 .controls > * {
   display: inline-block;
   margin: 0 8px;
+}
+
+.riff {
+  padding: 16px;
+  margin: 16px;
+
 }

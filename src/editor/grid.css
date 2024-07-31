@@ -1,6 +1,6 @@
 .cell {
   font-family: monospace;
-  border: 1px dashed lightpink;
+  border: none;
   background-color: white;
   margin: 0;
   padding: 0;
@@ -10,12 +10,4 @@
 .unit {
   display: inline;
   width: fit-content;
-}
-
-.riff-grid {
-  border: 1px solid gray;
-  width: fit-content;
-  padding: 16px;
-  border-radius: 8px;
-  margin: 16px;
 }
