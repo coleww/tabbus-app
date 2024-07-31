@@ -53,8 +53,10 @@ export function RiffEdit({ riff }: RiffProps) {
     (stringIdx: number, fretIdx: number, value: string) => {
       tabData[stringIdx][fretIdx] = value;
       setTabData(tabData);
+
+      setPossibleKeys(getPossibleKeys({ data: tabData, tuning }));
     },
-    [tabData]
+    [tabData, tuning]
   );
 
   return (

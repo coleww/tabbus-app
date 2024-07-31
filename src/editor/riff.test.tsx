@@ -119,7 +119,7 @@ describe('Riff', function () {
     });
   });
 
-  it('updates tab data when grid is edited', function () {
+  it('updates tab data and scales when grid is edited', function () {
     render(
       <React.Fragment>
         <RiffEdit
@@ -128,10 +128,20 @@ describe('Riff', function () {
       </React.Fragment>
     );
 
+    const expectedScales = ['e min', 'g maj'];
+
     const firstCell = screen.getAllByText(/^-?\d+-?$/)[0];
     expect(dedash(firstCell.textContent)).toBe('1');
+    expectedScales.forEach((scaleName) => {
+      expect(screen.queryByText(scaleName)).toBeNull();
+    })
+
     fireEvent.click(firstCell); // enter edit mode
     fireEvent.click(firstCell); // change first cell from '1' to '0'
     expect(dedash(firstCell.textContent)).toBe('0');
+
+    expectedScales.forEach((scaleName) => {
+      expect(screen.getByText(scaleName)).toBeTruthy();
+    })
   });
 });
