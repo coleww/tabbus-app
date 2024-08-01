@@ -4,7 +4,6 @@ export type Metadata = {
   id: string;
   name: string;
   notes?: string;
-  tags?: string;
   selectedKey?: string;
 };
 
