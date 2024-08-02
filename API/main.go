@@ -12,6 +12,9 @@ func main() {
 	models.DatabaseConnection()
 
 	r.GET("/songs", controllers.FindSongs)
+	r.GET("/songs/:id", controllers.FindSong)
+	r.POST("/songs", controllers.CreateSong)
+	r.POST("/songs/:id", controllers.UpdateSong)
 
 	r.Run()
 }

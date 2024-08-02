@@ -11,6 +11,7 @@ import (
 var DB *gorm.DB
 var err error
 
+// TODO: env variables
 func DatabaseConnection() {
 	host := "localhost"
 	port := "5432"

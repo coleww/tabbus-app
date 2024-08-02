@@ -8,6 +8,13 @@ import (
 	"tabbus.app/tabbus-api/models"
 )
 
+type SongInput struct {
+	Name          string
+	Sequence      []int
+	SequenceNotes []string
+	Notes         string
+}
+
 // GET /songs
 func FindSongs(c *gin.Context) {
 	var songs []models.Song
@@ -17,24 +24,54 @@ func FindSongs(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": songs})
 }
 
-// // GET /songs/:id
-// func FindSong(c *gin.Context) { // Get model if exist
-// 	var song models.Song
-// 	var riffs []models.Song
+// GET /songs/:id
+func FindSong(c *gin.Context) {
+	var song models.Song
 
-// 	if err := models.DB.Where("id = ?", c.Param("id")).First(&song).Error; err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
-// 		return
-// 	}
+	if err := models.DB.Preload("Riffs").Where("id = ?", c.Param("id")).First(&song).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		return
+	}
 
-// 	// JOINS
-// 	// get riffs for song
-// 	models.DB.Where("song_id = ?", c.Param("id")).Find(&riffs)
+	c.JSON(http.StatusOK, gin.H{"data": song})
+}
 
-// 	c.JSON(http.StatusOK, gin.H{"data": song})
-// }
+// POST /songs
+func CreateSong(c *gin.Context) {
+	var input SongInput
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
-// models.DB.Table("songs").Select("songs.name, emails.email").Joins("left join emails on emails.user_id = users.id").Scan(&songResult)
+	var uintSeq []uint
+	for _, n := range input.Sequence {
+		uintSeq = append(uintSeq, uint(n))
+	}
 
-// models.DB.Model(&Song{}).Select("songs.name, riffs.name").Joins("left join riffs on riffs.song_id = songs.id").Scan(&result{})
-// // SELECT users.name, emails.email FROM `users` left join emails on emails.user_id = users.id
+	song := models.Song{Name: input.Name, Notes: input.Notes, SequenceNotes: input.SequenceNotes, Sequence: uintSeq}
+	models.DB.Create(&song)
+
+	c.JSON(http.StatusOK, gin.H{"data": song})
+}
+
+// POST /songs/:id
+func UpdateSong(c *gin.Context) {
+	// Get model if exist
+	var song models.Song
+	if err := models.DB.Where("id = ?", c.Param("id")).First(&song).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		return
+	}
+
+	// Validate input
+	var input SongInput
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	models.DB.Model(&song).Updates(input)
+
+	c.JSON(http.StatusOK, gin.H{"data": song})
+}
