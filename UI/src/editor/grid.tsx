@@ -59,7 +59,7 @@ export function Grid({
         const rootNote = tuning[stringIdx];
         return (
           <div className="riff-row" key={`row ${stringIdx}`}>
-            <span className="cell">{rootNote}</span>
+            <span className="cell">{rootNote}-</span>
             {stringData.map((note, fretIdx) => {
               const isInKey = KEY_MAP[currentKey].includes(
                 getNote(rootNote, `${fretIdx}`)

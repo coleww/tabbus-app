@@ -1,34 +1,54 @@
-import React, { useState }  from 'react';
+import React, { useCallback, useState } from 'react';
 import { type Song } from '../types';
+import { RiffEdit } from './riff';
+import { defaultBassTuning, defaultGuitarTuning, makeRiff } from '../utils';
+import './song.css';
 
 type SongProps = {
   song: Song;
 };
 
-
-
 export function SongEdit({ song }: SongProps) {
-  const { name: _name, riffs: _riffs, sequence: _sequence, notes: _notes} = song;
+  const { riffs: _riffs, id } = song;
 
-  const [name, setName] = useState(_name);
   const [riffs, setRiffs] = useState(_riffs);
-  const [sequence, setSequence] = useState(_sequence);
-  const [notes, setNotes] = useState(_notes);
 
-  // Duplicate a riff already in the song
-  // Add a riff from library
-
-  // needs drag and drop
-
+  const addRiff = useCallback(
+    (gtr: boolean) => {
+      const newRiff = makeRiff(
+        'e maj',
+        gtr ? defaultGuitarTuning : defaultBassTuning,
+        id
+      );
+      setRiffs([...riffs, newRiff]);
+    },
+    [id, riffs]
+  );
 
   return (
     <React.Fragment>
-      {sequence.map((riffId) => {
-        const riff = riffs[riffId];
-        if (!riff) {
-          return;
-        }
-        return <div key={riff.id}>{riff.name}</div>
+      <div className="song-controls">
+        <button
+          onClick={() => {
+            addRiff(true);
+          }}
+        >
+          +guitar
+        </button>
+        <button
+          onClick={() => {
+            addRiff(false);
+          }}
+        >
+          +bass
+        </button>
+      </div>
+      {riffs.map(riff => {
+        return (
+          <div key={riff.id}>
+            <RiffEdit riff={riff} showControls={false} />
+          </div>
+        );
       })}
     </React.Fragment>
   );

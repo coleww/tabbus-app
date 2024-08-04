@@ -10,14 +10,14 @@ const mockRiff = {
   currentKey: 'chromatic',
   name: 'riff 1',
   id: '1',
-  songId: '1'
+  songId: '1',
 };
 
 describe('Riff', function () {
   it('should calculate potential keys and slash out mismatches', function () {
     render(
       <React.Fragment>
-        <RiffEdit riff={mockRiff} />
+        <RiffEdit riff={mockRiff} showControls={true} />
       </React.Fragment>
     );
     const select = screen.getByRole('combobox');
@@ -40,7 +40,7 @@ describe('Riff', function () {
   it('updates tab data when string added to tuning', function () {
     render(
       <React.Fragment>
-        <RiffEdit riff={mockRiff} />
+        <RiffEdit riff={mockRiff} showControls={true} />
       </React.Fragment>
     );
     // Initial grid size. 12 cells, name, tuning and show scale buttons
@@ -74,6 +74,7 @@ describe('Riff', function () {
             ],
             tuning: ['a', 'e'],
           }}
+          showControls={true}
         />
       </React.Fragment>
     );
@@ -100,32 +101,44 @@ describe('Riff', function () {
   it('activates scale mode', function () {
     render(
       <React.Fragment>
-        <RiffEdit riff={mockRiff} />
+        <RiffEdit riff={mockRiff} showControls={true} />
       </React.Fragment>
     );
     const scaleBtn = screen.getByRole('button', { name: 'show scale' });
     fireEvent.click(scaleBtn);
 
-    const expectedScale = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+    const expectedScale = [
+      '0',
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      '10',
+      '11',
+      '12',
+    ];
 
     screen.getAllByText(/^-?\d+-?$/).forEach((button, i) => {
-      expect(dedash(button.textContent)).toBe(expectedScale[i])
+      expect(dedash(button.textContent)).toBe(expectedScale[i]);
     });
 
     fireEvent.click(scaleBtn);
 
     const expectedTab = ['1', '3', '5', '7', '8', '10', '12'];
     screen.getAllByText(/^-*\d+-*$/).forEach((button, i) => {
-      expect(dedash(button.textContent)).toBe(expectedTab[i])
+      expect(dedash(button.textContent)).toBe(expectedTab[i]);
     });
   });
 
   it('updates tab data and scales when grid is edited', function () {
     render(
       <React.Fragment>
-        <RiffEdit
-          riff={mockRiff}
-        />
+        <RiffEdit riff={mockRiff} showControls={true} />
       </React.Fragment>
     );
 
@@ -133,16 +146,16 @@ describe('Riff', function () {
 
     const firstCell = screen.getAllByText(/^-?\d+-?$/)[0];
     expect(dedash(firstCell.textContent)).toBe('1');
-    expectedScales.forEach((scaleName) => {
+    expectedScales.forEach(scaleName => {
       expect(screen.queryByText(scaleName)).toBeNull();
-    })
+    });
 
     fireEvent.click(firstCell); // enter edit mode
     fireEvent.click(firstCell); // change first cell from '1' to '0'
     expect(dedash(firstCell.textContent)).toBe('0');
 
-    expectedScales.forEach((scaleName) => {
+    expectedScales.forEach(scaleName => {
       expect(screen.getByText(scaleName)).toBeTruthy();
-    })
+    });
   });
 });

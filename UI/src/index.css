@@ -1,0 +1,8 @@
+.title {
+  margin: 16px;
+}
+
+.title h1 {
+  display: inline-block;
+  margin: 0;
+}

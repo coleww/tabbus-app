@@ -10,10 +10,10 @@ import { type Riff } from '../types';
 
 type RiffProps = {
   riff: Riff;
+  showControls: boolean;
 };
 
-export function RiffEdit({ riff }: RiffProps) {
-  // TODO: wire all these up to API / data store
+export function RiffEdit({ riff, showControls }: RiffProps) {
   const {
     name: _name,
     data: _data,
@@ -60,31 +60,37 @@ export function RiffEdit({ riff }: RiffProps) {
   );
 
   return (
-    <div className='riff'>
-      <div className="controls">
-        <Name name={name} setName={setName} />
-        <Key
-          currentKey={currentKey}
-          possibleKeys={possibleKeys}
-          setCurrentKey={setCurrentKey}
-        />
-        <Tuning data={tuning} setData={setTuning} />
-        <button
-          onClick={() => {
-            setShowScale(!showScale);
-          }}
-        >
-          {showScale ? 'hide' : 'show'} scale
-        </button>
-      </div>
+    <React.Fragment>
+      <div className="riff">
+        {showControls ? (
+          <div className="controls">
+            <Name name={name || ''} setName={setName} />
+            <Key
+              currentKey={currentKey}
+              possibleKeys={possibleKeys}
+              setCurrentKey={setCurrentKey}
+            />
+            <Tuning data={tuning} setData={setTuning} />
+            <button
+              onClick={() => {
+                setShowScale(!showScale);
+              }}
+            >
+              {showScale ? 'hide' : 'show'} scale
+            </button>
+          </div>
+        ) : (
+          ''
+        )}
 
-      <Grid
-        tabData={tabData}
-        tuning={tuning}
-        currentKey={currentKey}
-        updateTabData={updateTabData}
-        showScale={showScale}
-      />
-    </div>
+        <Grid
+          tabData={tabData}
+          tuning={tuning}
+          currentKey={currentKey}
+          updateTabData={updateTabData}
+          showScale={showScale}
+        />
+      </div>
+    </React.Fragment>
   );
 }
