@@ -9,7 +9,7 @@ const mockGrid = {
   tuning: ['e'],
   showScale: false,
   currentKey: 'chromatic',
-  updateTabData: () => undefined,
+  updateRiff: () => undefined,
 };
 
 describe('Grid', function () {
@@ -133,7 +133,7 @@ describe('Grid', function () {
           currentKey={'e maj'}
           tabData={[['0', '', '2', '', '0']]}
           tuning={['e']}
-          updateTabData={callback}
+          updateRiff={callback}
         />
       </React.Fragment>
     );
@@ -193,7 +193,7 @@ describe('Grid', function () {
           currentKey={'e maj'}
           tabData={[['0', '', '2', '', '0']]}
           tuning={['e']}
-          updateTabData={callback}
+          updateRiff={callback}
         />
       </React.Fragment>
     );

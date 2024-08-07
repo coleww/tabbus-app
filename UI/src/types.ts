@@ -2,9 +2,6 @@ import { type TabData } from 'tab-tools';
 
 export type Metadata = {
   id: string;
-  name?: string;
-  notes?: string;
-  selectedKey?: string;
 };
 
 export type Riff = Metadata &
@@ -14,4 +11,7 @@ export type Riff = Metadata &
 
 export type Song = Metadata & {
   riffs: Riff[];
+  name?: string;
+  notes?: string;
+  selectedKey?: string;
 };

@@ -7,14 +7,14 @@ type GridProps = {
   tuning: string[];
   showScale: boolean;
   currentKey: string;
-  updateTabData: (stringIdx: number, fretIdx: number, value: string) => void;
+  updateRiff: (stringIdx: number, fretIdx: number, value: string) => void;
 };
 
 export function Grid({
   tuning,
   tabData,
   currentKey,
-  updateTabData,
+  updateRiff,
   showScale,
 }: GridProps) {
   const [editTarget, setEditTarget] = useState<number[] | undefined>();
@@ -43,13 +43,13 @@ export function Grid({
           setEditTarget(undefined);
           return;
         }
-        updateTabData(targetStringIdx, targetFretIdx, `${clickedFretIdx}`);
+        updateRiff(targetStringIdx, targetFretIdx, `${clickedFretIdx}`);
         setEditTarget(undefined);
       } else {
         setEditTarget([clickedStringIdx, clickedFretIdx]);
       }
     },
-    [editTarget, showScale, updateTabData]
+    [editTarget, showScale, updateRiff]
   );
 
   // TODO: break out row/cell component
