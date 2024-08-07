@@ -65,6 +65,8 @@ export function Grid({
                 getNote(rootNote, `${fretIdx}`)
               );
 
+              const isHighlighted = (editTarget && stringIdx === editTarget[0] && fretIdx === editTarget[1])
+
               const stringIsTarget =
                 (editTarget && stringIdx === editTarget[0]) || showScale;
 
@@ -78,7 +80,7 @@ export function Grid({
               return (
                 <div className="unit" key={`cell ${stringIdx} ${fretIdx}`}>
                   <button
-                    className="cell"
+                    className={`cell ${isHighlighted ? 'cell--target' : ''}`}
                     data-keymatch={isInKey ? 'Y' : ''}
                     data-pos={`${stringIdx},${fretIdx}`}
                   >

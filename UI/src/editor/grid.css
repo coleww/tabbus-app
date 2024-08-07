@@ -8,6 +8,11 @@
   cursor: pointer;
 }
 
+.cell--target {
+  background-color: lightgreen;
+  color: red;
+}
+
 .unit {
   display: inline;
   width: fit-content;
