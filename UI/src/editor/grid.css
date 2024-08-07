@@ -17,3 +17,12 @@
   display: inline;
   width: fit-content;
 }
+
+.riff-rows {
+  display: inline-block;
+}
+
+.tab {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

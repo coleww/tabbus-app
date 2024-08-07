@@ -23,42 +23,10 @@ export function SongEdit({ song }: SongProps) {
     )
   );
 
-  const updateTuning = useCallback(
-    (riffIdx: number, tuning: string[]) => {
-      const currentTuning = riffs[riffIdx].tuning;
-      //
-
-      if (tuning.length > currentTuning.length) {
-        const toAdd = tuning.length - currentTuning.length;
-        for (let i = 0; i < toAdd; i++) {
-          const emptyString = [
-            ...Array(riffs[riffIdx].data[0].length).keys(),
-          ].map(() => '');
-          riffs[riffIdx].data.unshift(emptyString);
-          riffs[riffIdx].tuning = tuning;
-        }
-      } else if (tuning.length < currentTuning.length) {
-        const toRemove = currentTuning.length - tuning.length;
-        for (let i = 0; i < toRemove; i++) {
-          riffs[riffIdx].data.shift();
-          riffs[riffIdx].tuning = tuning;
-        }
-      }
-
-      setRiffs(riffs);
-      setPossibleKeys(
-        getPossibleKeys(
-          ...riffs.map(riff => ({ tuning: riff.tuning, data: riff.data }))
-        )
-      );
-    },
-    [riffs]
-  );
-
   const updateRiff = useCallback(
     (riffIdx: number, stringIdx: number, fretIdx: number, value: string) => {
       riffs[riffIdx].data[stringIdx][fretIdx] = value;
-      setRiffs(riffs);
+      setRiffs([...riffs]);
       setPossibleKeys(
         getPossibleKeys(
           ...riffs.map(riff => ({ tuning: riff.tuning, data: riff.data }))
@@ -110,7 +78,6 @@ export function SongEdit({ song }: SongProps) {
               showControls={true}
               currentKey={currentKey}
               updateRiff={updateRiff.bind({}, i)}
-              updateTuning={updateTuning.bind({}, i)}
             />
           </div>
         );

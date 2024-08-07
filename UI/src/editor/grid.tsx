@@ -5,23 +5,17 @@ import './grid.css';
 type GridProps = {
   tabData: string[][];
   tuning: string[];
-  showScale: boolean;
   currentKey: string;
   updateRiff: (stringIdx: number, fretIdx: number, value: string) => void;
 };
 
-export function Grid({
-  tuning,
-  tabData,
-  currentKey,
-  updateRiff,
-  showScale,
-}: GridProps) {
+export function Grid({ tuning, tabData, currentKey, updateRiff }: GridProps) {
   const [editTarget, setEditTarget] = useState<number[] | undefined>();
 
+  const [showScale, setShowScale] = useState(false);
   const handleGridClick = useCallback(
     (evt: React.MouseEvent<HTMLDivElement>) => {
-      if (showScale) return;
+      if (showScale) return setShowScale(false);
       const clicked = evt.target as HTMLButtonElement;
       const posString = clicked.getAttribute('data-pos');
       const isInKey = clicked.getAttribute('data-keymatch');
@@ -55,43 +49,55 @@ export function Grid({
   // TODO: break out row/cell component
   return (
     <div className="riff-grid tab" onClick={handleGridClick}>
-      {tabData.map((stringData, stringIdx) => {
-        const rootNote = tuning[stringIdx];
-        return (
-          <div className="riff-row" key={`row ${stringIdx}`}>
-            <span className="cell">{rootNote}-</span>
-            {stringData.map((note, fretIdx) => {
-              const isInKey = KEY_MAP[currentKey].includes(
-                getNote(rootNote, `${fretIdx}`)
-              );
+      <div className="riff-rows">
+        {tabData.map((stringData, stringIdx) => {
+          const rootNote = tuning[stringIdx];
+          return (
+            <div className="riff-row" key={`row ${stringIdx}`}>
+              <button
+                className="cell"
+                onClick={() => {
+                  setShowScale(!showScale);
+                }}
+              >
+                {rootNote}-
+              </button>
+              {stringData.map((note, fretIdx) => {
+                const isInKey = KEY_MAP[currentKey].includes(
+                  getNote(rootNote, `${fretIdx}`)
+                );
 
-              const isHighlighted = (editTarget && stringIdx === editTarget[0] && fretIdx === editTarget[1])
+                const isHighlighted =
+                  editTarget &&
+                  stringIdx === editTarget[0] &&
+                  fretIdx === editTarget[1];
 
-              const stringIsTarget =
-                (editTarget && stringIdx === editTarget[0]) || showScale;
+                const stringIsTarget =
+                  (editTarget && stringIdx === editTarget[0]) || showScale;
 
-              const display =
-                !editTarget && !showScale
-                  ? note || '--'
-                  : isInKey && stringIsTarget
-                    ? `${fretIdx}`
-                    : '--';
+                const display =
+                  !editTarget && !showScale
+                    ? note || '--'
+                    : isInKey && stringIsTarget
+                      ? `${fretIdx}`
+                      : '--';
 
-              return (
-                <div className="unit" key={`cell ${stringIdx} ${fretIdx}`}>
-                  <button
-                    className={`cell ${isHighlighted ? 'cell--target' : ''}`}
-                    data-keymatch={isInKey ? 'Y' : ''}
-                    data-pos={`${stringIdx},${fretIdx}`}
-                  >
-                    {display.padStart(2, '-')}-
-                  </button>
-                </div>
-              );
-            })}
-          </div>
-        );
-      })}
+                return (
+                  <div className="unit" key={`cell ${stringIdx} ${fretIdx}`}>
+                    <button
+                      className={`cell ${isHighlighted ? 'cell--target' : ''}`}
+                      data-keymatch={isInKey ? 'Y' : ''}
+                      data-pos={`${stringIdx},${fretIdx}`}
+                    >
+                      {display.padStart(2, '-')}-
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

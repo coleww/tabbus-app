@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { SongEdit } from './song';
 
 const getMock = () => ({
@@ -49,72 +49,5 @@ describe('Song', () => {
       expect(isMatch || isSlashedOut).toBe(true);
     });
     expect(expectedMatches.length).toBe(0);
-  });
-
-  it('updates tab data when string added to tuning', function () {
-    render(
-      <React.Fragment>
-        <SongEdit song={getMock()} />
-      </React.Fragment>
-    );
-    // 2 riffs, each with 2 strings, 4 beats per string => 16 cells
-    expect(
-      screen
-        .getAllByRole('button')
-        .filter(button => button.classList.contains('cell')).length
-    ).toBe(16);
-    const tuningBtn = screen.getByRole('button', { name: 'ea' });
-    fireEvent.click(tuningBtn);
-    const tuningInput = screen.getByDisplayValue('ea');
-    fireEvent.change(tuningInput, { target: { value: 'ead' } });
-    fireEvent.keyDown(tuningInput, {
-      key: 'Enter',
-      code: 'Enter',
-      charCode: 13,
-    });
-
-    const updatedTuningBtn = screen.getByRole('button', { name: 'ead' });
-    expect(updatedTuningBtn.textContent).toBe('ead');
-
-    // adds another 4 beat string => 20 cells
-    expect(
-      screen
-        .getAllByRole('button')
-        .filter(button => button.classList.contains('cell')).length
-    ).toBe(20);
-  });
-
-  it('updates tab data when string removed from tuning', function () {
-    render(
-      <React.Fragment>
-        <SongEdit song={getMock()} />
-      </React.Fragment>
-    );
-    // 2 riffs, each with 2 strings, 4 beats per string => 16 cells
-    expect(
-      screen
-        .getAllByRole('button')
-        .filter(button => button.classList.contains('cell')).length
-    ).toBe(16);
-    const tuningBtn = screen.getByRole('button', { name: 'ea' });
-    fireEvent.click(tuningBtn);
-    const tuningInput = screen.getByDisplayValue('ea');
-    fireEvent.change(tuningInput, { target: { value: 'e' } });
-    fireEvent.keyDown(tuningInput, {
-      key: 'Enter',
-      code: 'Enter',
-      charCode: 13,
-    });
-
-    const updatedTuningBtn = screen.getByRole('button', { name: 'e' });
-    expect(updatedTuningBtn.textContent).toBe('e');
-
-    // removes top string
-    expect(
-      screen
-        .getAllByRole('button')
-        .filter(button => button.classList.contains('cell')).length
-    ).toBe(12);
-    expect(screen.getByRole('button', { name: '-1-' })).toBeTruthy();
   });
 });
